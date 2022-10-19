@@ -8,7 +8,6 @@ on:
 
 env:
   CMAKE_GENERATOR: Ninja
-  CMAKE_GENERATOR_PLATFORM: x64
 
 jobs:
   check_format:
@@ -42,5 +41,5 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -G "${{ env.CMAKE_GENERATOR }}" -A "${{ env.CMAKE_GENERATOR_PLATFORM }}" ..
+          cmake -G "${{ env.CMAKE_GENERATOR }}" ..
           cmake --build . --config Release
