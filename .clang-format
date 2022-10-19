@@ -1,0 +1,6 @@
+BasedOnStyle: Google
+
+TabWidth: 4
+UseTab: Never
+UseCRLF: false
+Standard: c++20
