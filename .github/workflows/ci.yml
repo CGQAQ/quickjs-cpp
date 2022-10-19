@@ -1,0 +1,62 @@
+name: QuickJS-CI
+
+on:
+  - push
+  - pull_request
+
+env:
+  - CMAKE_GENERATOR: Ninja
+  - CMAKE_GENERATOR_PLATFORM: x64
+
+matrix:
+  include:
+    - name: Windows
+      os: windows-latest
+      env:
+        - CMAKE_GENERATOR: Ninja
+        - CMAKE_GENERATOR_PLATFORM: x64
+    - name: Linux
+      os: ubuntu-latest
+      env:
+        - CMAKE_GENERATOR: Ninja
+        - CMAKE_GENERATOR_PLATFORM: x64
+    - name: macOS
+      os: macos-latest
+      env:
+        - CMAKE_GENERATOR: Ninja
+        - CMAKE_GENERATOR_PLATFORM: x64
+
+jobs:
+  check_format:
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install clang-format
+        run: |
+          python -m pip install --upgrade pip
+          pip install clang-format
+      - name: Check format
+        run: |
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            clang-format -i -style=file -fallback-style=none "src/*.cpp" "src/*.hpp"
+          else
+            clang-format -i -style=file "src/*.cpp" "src/*.hpp"
+          fi
+          git diff --exit-code
+
+  build:
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          choco install ninja
+          choco install cmake
+      - name: Build
+        run: |
+          cmake -S . -B build -G $env:CMAKE_GENERATOR -A $env:CMAKE_GENERATOR_PLATFORM
+          cmake --build build --config Release
+          cmake --build build --config Debug
