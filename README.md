@@ -1,2 +1,2 @@
 # quickjs-cpp
-What if quickjs were implemented in Modern C++
+What if quickjs was implemented in Modern C++
