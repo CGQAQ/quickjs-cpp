@@ -28,15 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            choco install ninja
-          elif [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            sudo apt-get install ninja-build
-          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
-            brew install ninja
-          fi
+      - uses: seanmiddleditch/gha-setup-ninja@master
       - name: Build
         run: |
           mkdir build
