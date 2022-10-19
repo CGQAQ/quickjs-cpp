@@ -18,7 +18,8 @@ jobs:
         run: sudo apt-get install clang-format
       - name: Check format
         run: |
-          git diff --exit-code --name-only --diff-filter=ACMRTUXB | grep -E '\.(c|h|cpp|hpp)$' | xargs clang-format -i
+          clang-format -i src/*.cpp
+          clang-format -i src/*.hpp
           git diff --exit-code
 
   build:
