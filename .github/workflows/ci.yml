@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
 
-environment:
+env:
   CMAKE_GENERATOR: Ninja
   CMAKE_GENERATOR_PLATFORM: x64
 
