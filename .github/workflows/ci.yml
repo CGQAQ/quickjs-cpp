@@ -10,26 +10,27 @@ env:
   - CMAKE_GENERATOR: Ninja
   - CMAKE_GENERATOR_PLATFORM: x64
 
-matrix:
-  include:
-    - name: Windows
-      os: windows-latest
-      env:
-        - CMAKE_GENERATOR: Ninja
-        - CMAKE_GENERATOR_PLATFORM: x64
-    - name: Linux
-      os: ubuntu-latest
-      env:
-        - CMAKE_GENERATOR: Ninja
-        - CMAKE_GENERATOR_PLATFORM: x64
-    - name: macOS
-      os: macos-latest
-      env:
-        - CMAKE_GENERATOR: Ninja
-        - CMAKE_GENERATOR_PLATFORM: x64
-
 jobs:
   check_format:
+    strategy:
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
+          - name: Linux
+            os: ubuntu-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
+          - name: macOS
+            os: macos-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -50,6 +51,24 @@ jobs:
           git diff --exit-code
 
   build:
+    strategy:
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
+          - name: Linux
+            os: ubuntu-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
+          - name: macOS
+            os: macos-latest
+            env:
+              - CMAKE_GENERATOR: Ninja
+              - CMAKE_GENERATOR_PLATFORM: x64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
