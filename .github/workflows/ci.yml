@@ -14,22 +14,7 @@ jobs:
   check_format:
     strategy:
       matrix:
-        include:
-          - name: Windows
-            os: windows-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
-          - name: Linux
-            os: ubuntu-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
-          - name: macOS
-            os: macos-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
+        os: [windows-latest, ubuntu-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -53,22 +38,7 @@ jobs:
   build:
     strategy:
       matrix:
-        include:
-          - name: Windows
-            os: windows-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
-          - name: Linux
-            os: ubuntu-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
-          - name: macOS
-            os: macos-latest
-            env:
-              - CMAKE_GENERATOR: Ninja
-              - CMAKE_GENERATOR_PLATFORM: x64
+        os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
