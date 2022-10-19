@@ -44,10 +44,16 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
-          choco install ninja
-          choco install cmake
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            choco install ninja
+          elif [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            sudo apt-get install ninja-build
+          elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+            brew install ninja
+          fi
       - name: Build
         run: |
-          cmake -S . -B build -G $env:CMAKE_GENERATOR -A $env:CMAKE_GENERATOR_PLATFORM
-          cmake --build build --config Release
-          cmake --build build --config Debug
+          mkdir build
+          cd build
+          cmake -G "${{ env.CMAKE_GENERATOR }}" -A "${{ env.CMAKE_GENERATOR_PLATFORM }}" ..
+          cmake --build . --config Release
