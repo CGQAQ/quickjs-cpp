@@ -9,4 +9,4 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-add_executable(qjs src/qjs.cpp src/list.h)
+add_executable(qjs src/qjs.cpp src/list.hpp)
