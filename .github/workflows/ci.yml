@@ -18,7 +18,7 @@ jobs:
         run: sudo apt-get install clang-format
       - name: Check format
         run: |
-          clang-format -style=file -i "src/*.cpp src/*.hpp"
+          clang-format -style=file -i "src/*.cpp" "src/*.hpp"
           git diff --exit-code
 
   build:
