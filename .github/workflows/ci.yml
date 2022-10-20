@@ -52,12 +52,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: seanmiddleditch/gha-setup-ninja@master
-      - name: Set up GCC
-        if: runner.os == 'Linux'
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: latest
-          platform: x64
+      - name: Upgrade GCC
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa -y
+          sudo apt-get update -y
+          sudo apt-get install gcc-12 -y
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
       - name: Configure using CMake (!Windows)
         if: runner.os != 'Windows'
         env:
