@@ -23,6 +23,9 @@ jobs:
 
   check_lint:
     runs-on: ubuntu-latest
+    env:
+      CC: gcc-12
+      CXX: g++-12
     steps:
       - uses: actions/checkout@v3
       - name: Install clang-tidy
@@ -39,9 +42,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: seanmiddleditch/gha-setup-ninja@master
-      - name: Build
+      - name: Configure using CMake (!Windows)
+        env:
+          CC: gcc-${{ matrix.gcc }}
+          CXX: g++-${{ matrix.gcc }}
+        if: runner.os != 'Windows'
         run: |
           mkdir build
           cd build
           cmake -G "${{ env.CMAKE_GENERATOR }}" ..
+      - name: Configure using CMake (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          mkdir build
+          cd build
+          cmake -G "${{ env.CMAKE_GENERATOR }}" ..
+      - name: Build
+        run: |
           cmake --build . --config Release
