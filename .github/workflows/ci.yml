@@ -14,8 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install clang-format
-        run: sudo apt-get install clang-format
+      - name: Install clang-tidy
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 15 all
       - name: Check format
         run: |
           clang-format -style=file -i src/*.{cpp,hpp}
@@ -23,9 +26,6 @@ jobs:
 
   check_lint:
     runs-on: ubuntu-latest
-    env:
-      CC: gcc-12
-      CXX: g++-12
     steps:
       - uses: actions/checkout@v3
       - name: Install clang-tidy
