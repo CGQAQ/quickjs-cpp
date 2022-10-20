@@ -2,6 +2,7 @@
 #define QJS_CUTILS_HPP
 
 #include <bit>
+#include <cstddef>
 #include <cstdint>
 
 /* set if CPU is big endian */
