@@ -35,9 +35,9 @@ jobs:
           sudo ./llvm.sh 15 all
       - name: Upgrade GCC
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa
-          sudo apt update -y
-          sudo apt install -y gcc-12
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa -y
+          sudo apt-get update -y
+          sudo apt-get install gcc-12 -y
       - name: Check lint
         run: |
           clang-tidy-15 --version
