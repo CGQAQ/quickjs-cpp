@@ -32,7 +32,7 @@ jobs:
         run: sudo apt-get install clang-tidy
       - name: Check lint
         run: |
-          clang-tidy src/*.cpp src/*.hpp -- -std=c++20
+          clang-tidy src/*.cpp src/*.hpp -- -std=c++23
 
   build:
     strategy:
