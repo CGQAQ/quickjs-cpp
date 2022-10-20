@@ -33,10 +33,12 @@ jobs:
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
           sudo ./llvm.sh 15 all
+      - name: Upgrade GCC
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa
+          sudo apt update -y
+          sudo apt install -y gcc-12
       - name: Check lint
-        env:
-          CC: clang-15
-          CXX: clang++-15
         run: |
           clang-tidy-15 --version
           clang-tidy-15 src/*.cpp src/*.hpp -extra-arg=-std=c++2b
