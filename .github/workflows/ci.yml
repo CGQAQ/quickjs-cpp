@@ -21,7 +21,7 @@ jobs:
           sudo ./llvm.sh 14 all
       - name: Check format
         run: |
-          clang-format-15 -style=file -i src/*.{cpp,hpp}
+          clang-format-14 -style=file -i src/*.{cpp,hpp}
           git diff --exit-code
 
   check_lint:
@@ -42,8 +42,8 @@ jobs:
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 50
       - name: Check lint
         run: |
-          clang-tidy-15 --version
-          clang-tidy-15 src/*.cpp src/*.hpp -extra-arg="-std=gnu++2b"
+          clang-tidy-14 --version
+          clang-tidy-14 src/*.cpp src/*.hpp -extra-arg="-std=gnu++2b"
 
   build:
     strategy:
