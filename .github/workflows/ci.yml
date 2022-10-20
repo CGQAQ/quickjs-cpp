@@ -41,7 +41,7 @@ jobs:
       - name: Check lint
         run: |
           clang-tidy-15 --version
-          clang-tidy-15 src/*.cpp src/*.hpp -extra-arg="-std=c++2b --gcc-toolchain=/usr/lib/gcc/x86_64-linux-gnu/12"
+          clang-tidy-15 src/*.cpp src/*.hpp -extra-arg="-std=c++2b" -extra-arg="--gcc-toolchain=/usr/lib/gcc/x86_64-linux-gnu/12"
 
   build:
     strategy:
