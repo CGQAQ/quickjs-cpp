@@ -37,7 +37,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa
           sudo apt update -y
-          sudo apt install -y gcc
+          sudo apt install -y gcc-12
       - name: Check lint
         run: |
           clang-tidy-15 --version
