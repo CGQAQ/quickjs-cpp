@@ -36,7 +36,7 @@ jobs:
       - name: Check lint
         run: |
           clang-tidy-15 --version
-          clang-tidy-15 src/*.cpp src/*.hpp -- -std=c++2b
+          clang-tidy-15 src/*.cpp src/*.hpp -extra-arg=-std=c++2b
 
   build:
     strategy:
