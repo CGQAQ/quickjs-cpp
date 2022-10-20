@@ -1,3 +1,6 @@
-Checks: google-*, llvm-*, clang-*, modernize-*, performance-*, readability-*, -modernize-use-trailing-return-type
+Checks: "google-*, llvm-*, -llvm-header-guard, clang-*, modernize-*,  \
+  performance-*, readability-*, -modernize-use-trailing-return-type,  \
+  -readability-identifier-length                                      \
+  "
 FormatStyle: file
 WarningsAsErrors: ""
