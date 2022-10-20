@@ -76,5 +76,5 @@ jobs:
           cmake -G "${{ env.CMAKE_GENERATOR }}" ..
       - name: Build
         run: |
-          ls -la
+          cd build
           cmake --build . --config Release
