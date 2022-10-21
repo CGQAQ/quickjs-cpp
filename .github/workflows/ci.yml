@@ -82,4 +82,4 @@ jobs:
       - name: Build
         run: |
           cd build
-          cmake --build . --config Release --debug-output
+          cmake --build . --config Release --v
