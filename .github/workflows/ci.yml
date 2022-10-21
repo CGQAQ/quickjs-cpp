@@ -2,9 +2,9 @@ name: QuickJS-CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 env:
   CMAKE_GENERATOR: Ninja
@@ -24,31 +24,33 @@ jobs:
           clang-format-14 -style=file -i src/*.{cpp,hpp}
           git diff --exit-code
 
-  check_lint:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install clang-tidy
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 14 all
-      - name: Upgrade GCC
-        run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa -y
-          sudo apt-get update -y
-          sudo apt-get install gcc-12 g++-12 -y
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 50
-      - name: Check lint
-        run: |
-          clang-tidy-14 --version
-          clang-tidy-14 src/*.cpp src/*.hpp -extra-arg="-std=gnu++2b"
+  #  clang tidy is not support c++23 well
+  #  temporarily disable it
+  #  check_lint:
+  #    runs-on: ubuntu-22.04
+  #    steps:
+  #      - uses: actions/checkout@v3
+  #      - name: Install clang-tidy
+  #        run: |
+  #          wget https://apt.llvm.org/llvm.sh
+  #          chmod +x llvm.sh
+  #          sudo ./llvm.sh 14 all
+  #      - name: Upgrade GCC
+  #        run: |
+  #          sudo add-apt-repository ppa:ubuntu-toolchain-r/ppa -y
+  #          sudo apt-get update -y
+  #          sudo apt-get install gcc-12 g++-12 -y
+  #          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
+  #          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 50
+  #      - name: Check lint
+  #        run: |
+  #          clang-tidy-14 --version
+  #          clang-tidy-14 src/*.cpp src/*.hpp -extra-arg="-std=gnu++2b"
 
   build:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-22.04, macos-latest]
+        os: [ windows-latest, ubuntu-22.04, macos-latest ]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
