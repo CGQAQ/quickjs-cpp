@@ -54,8 +54,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: seanmiddleditch/gha-setup-ninja@master
-      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Setup Ninja (ALL)
+        uses: seanmiddleditch/gha-setup-ninja@master
+      - name: Setup MSVC (Windows)
+        uses: ilammy/msvc-dev-cmd@v1
         if: matrix.os == 'windows-latest'
         with:
           arch: x64
@@ -68,7 +70,7 @@ jobs:
           sudo apt-get install gcc-12 g++-12 -y
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 50
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 50
-      - name: Configure using CMake (!Windows)
+      - name: Configure using CMake (NOT Windows)
         if: runner.os != 'Windows'
         env:
           CC: gcc-12
@@ -84,7 +86,7 @@ jobs:
           mkdir build
           cd build
           cmake -G "${{ env.CMAKE_GENERATOR }}" ..
-      - name: Build
+      - name: Build (ALL)
         run: |
           cd build
           cmake --build . --config Release 
