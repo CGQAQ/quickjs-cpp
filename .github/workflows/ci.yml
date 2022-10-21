@@ -55,12 +55,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: seanmiddleditch/gha-setup-ninja@master
-      - name: Add msbuild to PATH
+      - uses: ilammy/msvc-dev-cmd@v1
         if: matrix.os == 'windows-latest'
-        uses: microsoft/setup-msbuild@v1.1
         with:
-          # requiring latest compiler for c++23
-          vs-version: '[17.3,18)'
+          arch: x64
+          vs_version: 2022
       - name: Upgrade GCC(Ubuntu)
         if: runner.os == 'Linux'
         run: |
@@ -80,9 +79,6 @@ jobs:
           cmake -G "${{ env.CMAKE_GENERATOR }}" ..
       - name: Configure using CMake (Windows)
         if: runner.os == 'Windows'
-        env:
-          CC: ''
-          CXX: ''
         run: |
           . "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" /property catalog_productDisplayVersion
           mkdir build
