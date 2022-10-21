@@ -78,7 +78,7 @@ jobs:
           . "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" /property catalog_productDisplayVersion
           mkdir build
           cd build
-          cmake -G "${{ env.CMAKE_GENERATOR }}" .. -v
+          cmake -v -G "${{ env.CMAKE_GENERATOR }}" ..
       - name: Build
         run: |
           cd build
