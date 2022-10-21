@@ -59,7 +59,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         with:
           arch: x64
-          vs_version: 2022
+          vsversion: 2022
       - name: Upgrade GCC(Ubuntu)
         if: runner.os == 'Linux'
         run: |
