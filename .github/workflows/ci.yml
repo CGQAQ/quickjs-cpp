@@ -75,8 +75,8 @@ jobs:
       - name: Configure using CMake (Windows)
         if: runner.os == 'Windows'
         env:
-          CC: msvc
-          CXX: msvc
+          CC: Visual Studio 17 2022
+          CXX: Visual Studio 17 2022
         run: |
           . "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" /property catalog_productDisplayVersion
           mkdir build
