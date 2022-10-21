@@ -74,6 +74,9 @@ jobs:
           cmake -G "${{ env.CMAKE_GENERATOR }}" ..
       - name: Configure using CMake (Windows)
         if: runner.os == 'Windows'
+        env:
+          CC: msvc
+          CXX: msvc
         run: |
           . "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" /property catalog_productDisplayVersion
           mkdir build
