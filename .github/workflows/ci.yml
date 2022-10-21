@@ -55,6 +55,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: seanmiddleditch/gha-setup-ninja@master
+      - name: Add msbuild to PATH
+        if: matrix.os == 'windows-latest'
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          # requiring latest compiler for c++23
+          vs-version: '[17.3,18)'
       - name: Upgrade GCC(Ubuntu)
         if: runner.os == 'Linux'
         run: |
