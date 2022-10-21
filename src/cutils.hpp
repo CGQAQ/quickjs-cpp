@@ -75,7 +75,7 @@ namespace qjs::cutils {
 // #endif
 
 // TODO(CGQAQ): refactor or not?
-void pstrcpy(char *buf, int buf_size, const char *str);
+[[maybe_unused]] void pstrcpy(char *buf, int buf_size, const char *str);
 char *pstrcat(char *buf, int buf_size, const char *s);
 int strstart(const char *str, const char *val, const char **ptr);
 int has_suffix(const char *str, const char *suffix);
