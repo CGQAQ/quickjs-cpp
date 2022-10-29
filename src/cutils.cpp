@@ -188,36 +188,36 @@ void dbuf_free(DynBuf *s) {
    are output. */
 // TODO(CGQAQ): too many magic number
 // NOLINTBEGIN
-int unicode_to_utf8(uint8_t *buf, unsigned int c) {
+int unicode_to_utf8(uint8_t *buf, uint32_t c) {
     uint8_t *q = buf;
 
     if (c < 0x80) {
-        *q++ = c;
+        *q++ = static_cast<uint8_t>(c);
     } else {
         if (c < 0x800) {
-            *q++ = (c >> 6) | 0xc0;
+            *q++ = static_cast<uint8_t>((c >> 6) | 0xc0);
         } else {
             if (c < 0x10000) {
-                *q++ = (c >> 12) | 0xe0;
+                *q++ = static_cast<uint8_t>((c >> 12) | 0xe0);
             } else {
                 if (c < 0x00200000) {
-                    *q++ = (c >> 18) | 0xf0;
+                    *q++ = static_cast<uint8_t>((c >> 18) | 0xf0);
                 } else {
                     if (c < 0x04000000) {
-                        *q++ = (c >> 24) | 0xf8;
+                        *q++ = static_cast<uint8_t>((c >> 24) | 0xf8);
                     } else if (c < 0x80000000) {
-                        *q++ = (c >> 30) | 0xfc;
-                        *q++ = ((c >> 24) & 0x3f) | 0x80;
+                        *q++ = static_cast<uint8_t>((c >> 30) | 0xfc);
+                        *q++ = static_cast<uint8_t>(((c >> 24) & 0x3f) | 0x80);
                     } else {
                         return 0;
                     }
-                    *q++ = ((c >> 18) & 0x3f) | 0x80;
+                    *q++ = static_cast<uint8_t>(((c >> 18) & 0x3f) | 0x80);
                 }
-                *q++ = ((c >> 12) & 0x3f) | 0x80;
+                *q++ = static_cast<uint8_t>(((c >> 12) & 0x3f) | 0x80);
             }
-            *q++ = ((c >> 6) & 0x3f) | 0x80;
+            *q++ = static_cast<uint8_t>(((c >> 6) & 0x3f) | 0x80);
         }
-        *q++ = (c & 0x3f) | 0x80;
+        *q++ = static_cast<uint8_t>((c & 0x3f) | 0x80);
     }
     return q - buf;
 }
