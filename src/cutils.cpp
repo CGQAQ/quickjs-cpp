@@ -64,19 +64,21 @@ int has_suffix(const char *str, const char *suffix) {
 }
 
 // TODO(CGQAQ): find a way to remove require of realloc
-static void *dbuf_default_realloc(void *opaque, void *ptr, size_t size) {
+static void *dbuf_default_realloc(void * /*unused*/, void *ptr, size_t size) {
     return realloc(ptr, size);
 }
 
 // TODO(CGQAQ): NEED REFACOTR to c++ class
 void dbuf_init2(DynBuf *s, void *opaque, DynBufReallocFunc *realloc_func) {
     memset(s, 0, sizeof(*s));
-    if (!realloc_func) realloc_func = dbuf_default_realloc;
+    if (realloc_func == nullptr) {
+        realloc_func = dbuf_default_realloc;
+    }
     s->opaque = opaque;
     s->realloc_func = realloc_func;
 }
 
-void dbuf_init(DynBuf *s) { dbuf_init2(s, NULL, NULL); }
+void dbuf_init(DynBuf *s) { dbuf_init2(s, nullptr, nullptr); }
 
 /* return < 0 if error */
 int dbuf_realloc(DynBuf *s, size_t new_size) {
@@ -150,7 +152,7 @@ dbuf_printf(DynBuf *s, const char *fmt, ...) {
     // TODO(CGQAQ): use std::string
     // NOLINTNEXTLINE
     char buf[128];
-    int len;
+    uint32_t len;
 
     va_start(ap, fmt);
     len = vsnprintf(buf, sizeof(buf), fmt, ap);
@@ -231,7 +233,7 @@ static const unsigned char utf8_first_code_mask[5] = {
    be >= 1. The maximum length for a UTF8 byte sequence is 6 bytes. */
 int unicode_from_utf8(const uint8_t *p, int max_len, const uint8_t **pp) {
     int l;
-    int c;
+    uint32_t c;
     int b;
     int i;
 
@@ -319,17 +321,20 @@ int unicode_from_utf8(const uint8_t *p, int max_len, const uint8_t **pp) {
             return -1;
     }
     /* check that we have enough characters */
-    if (l > (max_len - 1)) { return -1;
-}
+    if (l > (max_len - 1)) {
+        return -1;
+    }
     c &= utf8_first_code_mask[l - 1];
     for (i = 0; i < l; i++) {
         b = *p++;
-        if (b < 0x80 || b >= 0xc0) { return -1;
-}
+        if (b < 0x80 || b >= 0xc0) {
+            return -1;
+        }
         c = (c << 6) | (b & 0x3f);
     }
-    if (c < utf8_min_code[l - 1]) { return -1;
-}
+    if (c < utf8_min_code[l - 1]) {
+        return -1;
+    }
     // NOLINTEND
     *pp = p;
     return c;
@@ -375,7 +380,7 @@ static void exchange_bytes(void *a, void *b, size_t size) {
     }
 }
 
-static void exchange_one_byte(void *a, void *b, size_t size) {
+static void exchange_one_byte(void *a, void *b, size_t /*unused*/) {
     auto *ap = static_cast<uint8_t *>(a);
     auto *bp = static_cast<uint8_t *>(b);
     uint8_t t = *ap;
@@ -394,7 +399,7 @@ static void exchange_int16s(void *a, void *b, size_t size) {
     }
 }
 
-static void exchange_one_int16(void *a, void *b, size_t size) {
+static void exchange_one_int16(void *a, void *b, size_t /*size unused*/) {
     auto *ap = static_cast<uint16_t *>(a);
     auto *bp = static_cast<uint16_t *>(b);
     uint16_t t = *ap;
@@ -413,7 +418,7 @@ static void exchange_int32s(void *a, void *b, size_t size) {
     }
 }
 
-static void exchange_one_int32(void *a, void *b, size_t size) {
+static void exchange_one_int32(void *a, void *b, size_t /*size unused*/) {
     auto *ap = static_cast<uint32_t *>(a);
     auto *bp = static_cast<uint32_t *>(b);
     uint32_t t = *ap;
@@ -432,7 +437,7 @@ static void exchange_int64s(void *a, void *b, size_t size) {
     }
 }
 
-static void exchange_one_int64(void *a, void *b, size_t size) {
+static void exchange_one_int64(void *a, void *b, size_t /*size*/) {
     auto *ap = static_cast<uint64_t *>(a);
     auto *bp = static_cast<uint64_t *>(b);
     uint64_t t = *ap;
@@ -454,7 +459,7 @@ static void exchange_int128s(void *a, void *b, size_t size) {
     }
 }
 
-static void exchange_one_int128(void *a, void *b, size_t size) {
+static void exchange_one_int128(void *a, void *b, size_t /*size*/) {
     auto *ap = static_cast<uint64_t *>(a);
     auto *bp = static_cast<uint64_t *>(b);
     uint64_t t = ap[0];
@@ -466,7 +471,8 @@ static void exchange_one_int128(void *a, void *b, size_t size) {
 }
 
 static inline exchange_f exchange_func(const void *base, size_t size) {
-    switch ((reinterpret_cast<uintptr_t>(base) | static_cast<uintptr_t>(size)) & 15) {
+    switch ((reinterpret_cast<uintptr_t>(base) | static_cast<uintptr_t>(size)) &
+            15) {
         case 0:
             if (size == sizeof(uint64_t) * 2) {
                 return exchange_one_int128;
