@@ -219,7 +219,7 @@ int unicode_to_utf8(uint8_t *buf, uint32_t c) {
         }
         *q++ = static_cast<uint8_t>((c & 0x3f) | 0x80);
     }
-    return q - buf;
+    return static_cast<int>(q - buf);
 }
 // NOLINTEND
 
