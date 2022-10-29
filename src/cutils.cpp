@@ -1,5 +1,6 @@
 #include "cutils.hpp"
 
+#include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
