@@ -1,6 +1,7 @@
 #include "cutils.hpp"
 
 #include <cstdarg>
+#include <cstdlib>
 #include <cstring>
 // TODO(CGQAQ): implement this
 
