@@ -1,8 +1,8 @@
 #include "cutils.hpp"
 
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <stdarg.h>
 // TODO(CGQAQ): implement this
 
 namespace qjs::cutils {
