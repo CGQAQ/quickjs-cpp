@@ -10,6 +10,6 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 endif()
 
-add_executable(qjs src/qjs.cpp src/list.hpp src/cutils.cpp src/cutils.hpp)
+add_executable(qjs src/qjs.cpp src/list.hpp src/cutils.cpp src/cutils.hpp src/quickjs.cpp src/quickjs.hpp)
 
 target_include_directories(qjs PRIVATE ${PROJECT_SOURCE_DIR}/src)
