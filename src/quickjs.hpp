@@ -937,7 +937,8 @@ static inline JSValue JS_NewCFunctionMagic(JSContext *ctx, JSCFunctionMagic *fun
                                            const char *name,
                                            int length, JSCFunctionEnum cproto, int magic)
 {
-    return JS_NewCFunction2(ctx, reinterpret_cast<JSCFunction *>(func), name, length, cproto, magic);
+                                                                    // ignore -Wincompatible-function-pointer-types
+    return JS_NewCFunction2(ctx, reinterpret_cast<JSCFunction *>(reinterpret_cast<void*>(func)), name, length, cproto, magic);
 }
 void JS_SetConstructor(JSContext *ctx, JSValueConst func_obj,
                        JSValueConst proto);
